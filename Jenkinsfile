@@ -18,9 +18,6 @@ pipeline {
         }
 
         stage('Unit tests step') {
-            when {
-                expression { params.SKIP_TESTS == false }
-            }
             steps {
                 echo "Executing unit tests..."
                 sh "mvn clean test"
