@@ -25,8 +25,6 @@ pipeline {
         }
 
         stage('Package step') {
-
-            when { branch 'main' }
             steps {
                 echo "Packaging app..."
                 sh "mvn package -DskipTests"
