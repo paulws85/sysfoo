@@ -31,19 +31,21 @@ pipeline {
     }
 
     stage('Package step') {
+      when {
+	    branch 'main'
+      }
       parallel {
         stage('Package step') {
           agent {
             docker {
               image 'maven:3.9.6-eclipse-temurin-17-alpine'
             }
-
           }
           steps {
             echo 'Packaging app...'
             sh '''GIT_SHORT_COMMIT=$(echo $GIT_COMMIT | cut -c 1-7)
-mvn versions:set -DnewVersion="$GIT_SHORT_COMMIT"
-mvn versions:commit'''
+            mvn versions:set -DnewVersion="$GIT_SHORT_COMMIT"
+            mvn versions:commit'''
             sh 'mvn package -DskipTests'
             archiveArtifacts '**/target/*.jar'
           }
