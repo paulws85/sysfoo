@@ -1,7 +1,13 @@
 pipeline {
-  agent any
+  agent none
   stages {
     stage('Build step') {
+      agent {
+        docker {
+          image '3.9.6-eclipse-temurin-17-alpine'
+        }
+
+      }
       steps {
         echo "Building app: ${env.BUILD_ID}"
         script {
@@ -12,6 +18,12 @@ pipeline {
     }
 
     stage('Unit tests step') {
+      agent {
+        docker {
+          image '3.9.6-eclipse-temurin-17-alpine'
+        }
+
+      }
       steps {
         echo 'Executing unit tests...'
         sh 'mvn clean test'
@@ -19,6 +31,12 @@ pipeline {
     }
 
     stage('Package step') {
+      agent {
+        docker {
+          image '3.9.6-eclipse-temurin-17-alpine'
+        }
+
+      }
       steps {
         echo 'Packaging app...'
         sh '''GIT_SHORT_COMMIT=$(echo $GIT_COMMIT | cut -c 1-7)
